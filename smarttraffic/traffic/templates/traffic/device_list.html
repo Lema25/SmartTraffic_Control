@@ -1,0 +1,38 @@
+<!-- device_list.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Device List</title>
+</head>
+<body>
+
+  <h2>List of Devices</h2>
+
+  <!-- Verifica si hay dispositivos para mostrar -->
+  {% if devices %}
+    <ul>
+      <!-- Itera sobre cada dispositivo en la lista -->
+      {% for device in devices %}
+        <li>
+          <!-- Muestra el nombre del dispositivo -->
+          <strong>Name:</strong> {{ device.name }}<br>
+
+          <!-- Muestra otros campos del dispositivo -->
+          <strong>Type:</strong> {{ device.type }}<br>
+          <strong>Status:</strong> {{ device.status }}<br>
+
+          <!-- Puedes agregar más campos según sea necesario -->
+
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No devices available.</p>
+  {% endif %}
+
+</body>
+</html>

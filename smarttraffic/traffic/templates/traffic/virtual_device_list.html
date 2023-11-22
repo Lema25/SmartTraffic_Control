@@ -1,0 +1,38 @@
+<!-- virtual_device_list.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Device List</title>
+</head>
+<body>
+
+  <h2>List of Virtual Devices</h2>
+
+  <!-- Verifica si hay dispositivos virtuales para mostrar -->
+  {% if virtual_devices %}
+    <ul>
+      <!-- Itera sobre cada dispositivo virtual en la lista -->
+      {% for virtual_device in virtual_devices %}
+        <li>
+          <!-- Muestra el nombre del dispositivo virtual -->
+          <strong>Name:</strong> {{ virtual_device.name }}<br>
+
+          <!-- Muestra otros campos del dispositivo virtual -->
+          <strong>Type:</strong> {{ virtual_device.type }}<br>
+          <strong>Data:</strong> {{ virtual_device.data }}<br>
+
+          <!-- Puedes agregar más campos según sea necesario -->
+
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No virtual devices available.</p>
+  {% endif %}
+
+</body>
+</html>

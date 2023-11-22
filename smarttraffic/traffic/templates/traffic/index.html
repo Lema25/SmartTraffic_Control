@@ -1,0 +1,43 @@
+<!-- traffic/templates/traffic/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartTraffic Control</title>
+</head>
+<body>
+    <h1>SmartTraffic Control</h1>
+
+    <!-- Botón de inicio de sesión -->
+    <a href="{% url 'login' %}"><button>Iniciar sesión</button></a>
+
+    <h2><li><a href="{% url 'device_list' %}">Devices</a></li></h2>
+    <ul>
+        {% for device in devices %}
+            <li>{{ device.name }} - {{ device.type }} - {{ device.location }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2><li><a href="{% url 'virtual_device_list' %}">Virtual Devices</a></li></h2>
+    <ul>
+        {% for vdevice in virtual_devices %}
+            <li>{{ vdevice.name }} - {{ vdevice.type }} - {{ vdevice.metadata }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2><li><a href="{% url 'thing_list' %}">Things</a></li></h2>
+    <ul>
+        {% for thing in things %}
+            <li>{{ thing.name }} - {{ thing.type }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2><li><a href="{% url 'traffic_data_list' %}">Traffic Data</a></li></h2>
+    <ul>
+        {% for data in traffic_data %}
+            <li>{{ data.device.name }} - {{ data.timestamp }} - {{ data.data }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

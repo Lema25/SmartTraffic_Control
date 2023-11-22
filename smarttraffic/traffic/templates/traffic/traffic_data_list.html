@@ -1,0 +1,49 @@
+<!-- traffic_data_list.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Data List</title>
+</head>
+<body>
+
+  <h2>List of Traffic Data</h2>
+
+  <!-- Verifica si hay datos de tráfico para mostrar -->
+  {% if traffic_data %}
+    <table border="1">
+      <thead>
+        <tr>
+          <!-- Encabezados de la tabla -->
+          <th>ID</th>
+          <th>Device</th>
+          <th>Timestamp</th>
+          <th>Vehicle Count</th>
+          <th>Average Speed</th>
+          <!-- Puedes agregar más campos según sea necesario -->
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Itera sobre cada conjunto de datos de tráfico -->
+        {% for data in traffic_data %}
+          <tr>
+            <!-- Muestra los datos de tráfico en celdas de la tabla -->
+            <td>{{ data.id }}</td>
+            <td>{{ data.device.name }}</td>
+            <td>{{ data.timestamp }}</td>
+            <td>{{ data.vehicle_count }}</td>
+            <td>{{ data.average_speed }}</td>
+            <!-- Puedes agregar más celdas para otros campos -->
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No traffic data available.</p>
+  {% endif %}
+
+</body>
+</html>

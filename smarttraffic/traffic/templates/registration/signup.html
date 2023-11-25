@@ -1,15 +1,29 @@
 {% extends 'base.html' %}
 
-{% block title %}Registro{% endblock %}
+{% block title %}
+  Registro
+{% endblock %}
 
 {% block content %}
-  <h2>Registro</h2>
-  <form method="post" action="{% url 'signup' %}">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Registrarse</button>
-  </form>
-
-  <!-- Botón para ir a la página de inicio de sesión -->
-  <p>¿Ya tienes una cuenta? <a href="{% url 'login' %}">Iniciar sesión</a></p>
+<div
+    class="bg-white p-5 rounded-5 text-secondary shadow"
+    style="width: 50rem"
+  >
+  <div class="text-center fs-1 fw-bold">Registro</div>
+  
+  <div class="input-group mt-4">
+    <div class="container-fluid">
+      <form method="post" action="{% url 'signup' %}" class="form-control bg-light">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-info text-white w-100 mt-4 fw-semibold shadow-sm">Registrarse</button>
+      </form>
+    </div>
+  </div>
+    <!-- Botón para ir a la página de inicio de sesión -->
+    <div class="d-flex gap-1 justify-content-center mt-1">
+      <div>¿Ya tienes una cuenta?</div> 
+      <a href="{% url 'login' %}" class="text-decoration-none text-info fw-semibold">Iniciar sesión</a>
+    </div>
+</div>
 {% endblock %}

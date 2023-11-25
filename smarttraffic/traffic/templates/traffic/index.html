@@ -18,11 +18,8 @@
 <body class="bg-info d-flex justify-content-center align-items-center vh-100">
     <div
     class="bg-white p-5 rounded-5 text-secondary shadow"
-    style="width: 100rem">
+    style="width: 50rem">
         <div class="text-center fs-1 fw-bold">SmartTraffic Control</div>
-
-    <!-- Botón de cerrar sesión -->
-    <a href="{% url 'login' %}"><button class="btn btn-info text-white w-100 mt-4 fw-semibold shadow-sm">Cerrar sesión</button></a>
     <div class="input-group mt-4">
         <h2><li><a href="{% url 'device_list' %}" class="text-decoration-none text-info fw-semibold">Devices</a></li></h2>
         <ul class="input-group mt-4">
@@ -53,5 +50,7 @@
             {% endfor %}
         </ul>
     </div>
+    <!-- Botón de cerrar sesión -->
+    <a href="{% url 'login' %}"><button class="btn btn-primary btn-lg float-end" data-bs-toggle="button" autocomplete="off">Cerrar sesión</button></a>
 </body>
 </html>

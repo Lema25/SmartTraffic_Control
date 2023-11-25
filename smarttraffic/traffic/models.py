@@ -11,7 +11,7 @@ class VirtualDevice(models.Model):
     type = models.CharField(max_length=100)
     metadata = models.TextField()
 
-class Thing(models.Model):
+class Permissions(models.Model):
     name = models.CharField(max_length=255)
     type = models.CharField(max_length=100)
     relationship = models.ManyToManyField('self', blank=True)

@@ -36,10 +36,10 @@
             {% endfor %}
         </ul>
     </div>
-        <h2><li><a href="{% url 'thing_list' %}" class="text-decoration-none text-info fw-semibold">Things</a></li></h2>
+        <h2><li><a href="{% url 'permissions_list' %}" class="text-decoration-none text-info fw-semibold">Permissions</a></li></h2>
         <ul class="input-group mt-4">
-            {% for thing in things %}
-                <li class="d-flex gap-1 justify-content-center mt-1">{{ thing.name }} - {{ thing.type }}</li>
+            {% for permissions in permissions %}
+                <li class="d-flex gap-1 justify-content-center mt-1">{{ permissions.name }} - {{ permissions.type }}</li>
             {% endfor %}
         </ul>
     <div class="input-group mt-4">

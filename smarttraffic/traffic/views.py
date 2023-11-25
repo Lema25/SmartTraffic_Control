@@ -1,6 +1,6 @@
 # traffic/views.py
 from django.shortcuts import render, redirect
-from .models import Device, VirtualDevice, Thing, TrafficData
+from .models import Device, VirtualDevice, Permissions, TrafficData
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
@@ -8,13 +8,13 @@ from django.contrib.auth.forms import UserCreationForm
 def index(request):
     devices = Device.objects.all()
     virtual_devices = VirtualDevice.objects.all()
-    things = Thing.objects.all()
+    permissions = Permissions.objects.all()
     traffic_data = TrafficData.objects.all()
 
     context = {
         'devices': devices,
         'virtual_devices': virtual_devices,
-        'things': things,
+        'permissions': permissions,
         'traffic_data': traffic_data,
     }
 
@@ -28,9 +28,9 @@ def virtual_device_list(request):
     virtual_devices = VirtualDevice.objects.all()
     return render(request, 'traffic/virtual_device_list.html', {'virtual_devices': virtual_devices})
 
-def thing_list(request):
-    things = Thing.objects.all()
-    return render(request, 'traffic/thing_list.html', {'things': things})
+def permissions_list(request):
+    permissions = Permissions.objects.all()
+    return render(request, 'traffic/permissions_list.html', {'permissions': permissions})
 
 def traffic_data_list(request):
     traffic_data_list = TrafficData.objects.all()

@@ -1,50 +1,43 @@
-<!-- device_list.html -->
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Device List</title>
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-    integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx"
-    crossorigin="anonymous"
-  />
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SmartTraffic Control - Device List</title>
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx"
+        crossorigin="anonymous"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 </head>
+
 <body class="bg-info d-flex justify-content-center align-items-center vh-100">
-  <div class="bg-white p-5 rounded-5 text-secondary shadow"
-    style="width: 50rem">
-    <h2 class="text-center fs-1 fw-bold">List of Devices</h2>
-    <!-- Botón de atrás -->
-    <a href="{% url 'index' %}"><button class="btn btn-primary" data-bs-toggle="button" autocomplete="off">Atrás</button></a>
-    <!-- Verifica si hay dispositivos para mostrar -->
-    {% if devices %}
-    <div class="input-group mt-4">
-      <ul>
-        <!-- Itera sobre cada dispositivo en la lista -->
-        {% for device in devices %}
-        <li>
-          <!-- Muestra el nombre del dispositivo -->
-          <strong>Name:</strong> {{ device.name }}<br>
+    <div class="bg-white p-5 rounded-5 text-secondary shadow" style="width: 50rem">
+        <div class="text-center fs-1 fw-bold">SmartTraffic Control - Device List</div>
+        
+        <!-- Formulario para agregar dispositivo (arriba) -->
+        <form method="post" class="mt-4">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-success">Agregar Dispositivo</button>
+        </form>
 
-          <!-- Muestra otros campos del dispositivo -->
-          <strong>Type:</strong> {{ device.type }}<br>
-          <strong>Status:</strong> {{ device.status }}<br>
-
-          <!-- Puedes agregar más campos según sea necesario -->
-
-        </li>
-      {% endfor %}
-    </ul>
-  </div>
-  {% else %}
-    <p class="input-group mt-4">No devices available.</p>
-  {% endif %}
-
+        <!-- Lista de dispositivos (abajo) -->
+        <div class="input-group mt-4">
+            <h2><li><a href="{% url 'device_list' %}" class="text-decoration-none text-info fw-semibold">Devices</a></li></h2>
+            <ul class="input-group mt-4">
+                {% for device in devices %}
+                    <li class="d-flex gap-1 justify-content-center mt-1">{{ device.name }} - {{ device.type }} - {{ device.location }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 </body>
+
 </html>

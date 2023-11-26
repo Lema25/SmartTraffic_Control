@@ -1,9 +1,11 @@
-# traffic/views.py
 from django.shortcuts import render, redirect
-from .models import Device, VirtualDevice, Permissions, TrafficData
+from .models import Device, VirtualDevice, Permissions, TrafficData, Device
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
+from .forms import DeviceForm, VirtualDeviceForm
+from django.contrib.auth.models import User 
+from django.db.models import Q
 
 def index(request):
     devices = Device.objects.all()
@@ -22,19 +24,61 @@ def index(request):
 
 def device_list(request):
     devices = Device.objects.all()
-    return render(request, 'traffic/device_list.html', {'devices': devices})
+
+    if request.method == 'POST':
+        form = DeviceForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('device_list')
+    else:
+        form = DeviceForm()
+
+    return render(request, 'traffic/device_list.html', {'devices': devices, 'form': form})
 
 def virtual_device_list(request):
     virtual_devices = VirtualDevice.objects.all()
-    return render(request, 'traffic/virtual_device_list.html', {'virtual_devices': virtual_devices})
+
+    if request.method == 'POST':
+        form = VirtualDeviceForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('virtual_device_list')
+    else:
+        form = VirtualDeviceForm()
+
+    return render(request, 'traffic/virtual_device_list.html', {'virtual_devices': virtual_devices, 'form': form})
 
 def permissions_list(request):
-    permissions = Permissions.objects.all()
-    return render(request, 'traffic/permissions_list.html', {'permissions': permissions})
+    users = User.objects.all()  # Obtén todos los usuarios
+    return render(request, 'traffic/permissions_list.html', {'users': users})
 
 def traffic_data_list(request):
+    # Obtén todos los datos de tráfico
     traffic_data_list = TrafficData.objects.all()
-    print(traffic_data_list)
+
+    # Manejar la lógica de búsqueda
+    search_device = request.GET.get('search_device')
+    device_type = request.GET.get('device_type')
+    
+    print("SQL Query:", str(traffic_data_list.query))
+
+    if search_device and device_type:
+        # Utilizar Q para manejar la búsqueda en la tabla correspondiente
+        if device_type == 'normal':
+            traffic_data_list = traffic_data_list.filter(
+                Q(device__name__icontains=search_device) |
+                Q(device__virtual_device__name__icontains=search_device)
+            )
+        elif device_type == 'virtual':
+            traffic_data_list = traffic_data_list.filter(
+                Q(device__name__icontains=search_device) |
+                Q(device__virtual_device__name__icontains=search_device)
+            )
+
+    print("SQL Query:", str(traffic_data_list.query))
+    
+    # Renderizar la página con los resultados filtrados
+    print("traffic_data_list:", traffic_data_list)
     return render(request, 'traffic/traffic_data_list.html', {'traffic_data_list': traffic_data_list})
 
 def my_protected_view(request):

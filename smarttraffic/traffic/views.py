@@ -53,33 +53,26 @@ def permissions_list(request):
     return render(request, 'traffic/permissions_list.html', {'users': users})
 
 def traffic_data_list(request):
-    # Obtén todos los datos de tráfico
-    traffic_data_list = TrafficData.objects.all()
-
     # Manejar la lógica de búsqueda
     search_device = request.GET.get('search_device')
     device_type = request.GET.get('device_type')
-    
-    print("SQL Query:", str(traffic_data_list.query))
+    lista=[]
 
     if search_device and device_type:
         # Utilizar Q para manejar la búsqueda en la tabla correspondiente
         if device_type == 'normal':
-            traffic_data_list = traffic_data_list.filter(
-                Q(device__name__icontains=search_device) |
-                Q(device__virtual_device__name__icontains=search_device)
-            )
+            query="SELECT * FROM traffic_device WHERE name LIKE '%"+search_device+"%'"
+            for dispositivos in Device.objects.raw(query):
+                lista.append(dispositivos)
         elif device_type == 'virtual':
-            traffic_data_list = traffic_data_list.filter(
-                Q(device__name__icontains=search_device) |
-                Q(device__virtual_device__name__icontains=search_device)
-            )
-
-    print("SQL Query:", str(traffic_data_list.query))
+            query="SELECT * FROM traffic_virtualdevice WHERE name LIKE '%"+search_device+"%'"
+            for dispositivos in VirtualDevice.objects.raw(query):
+                lista.append(dispositivos)
+    #print("SQL Query:", str(traffic_data_list.query))
     
     # Renderizar la página con los resultados filtrados
-    print("traffic_data_list:", traffic_data_list)
-    return render(request, 'traffic/traffic_data_list.html', {'traffic_data_list': traffic_data_list})
+    #print("traffic_data_list:", traffic_data_list)
+    return render(request, 'traffic/traffic_data_list.html', {'traffic_data_list': lista})
 
 def my_protected_view(request):
     # Tu lógica de vista aquí

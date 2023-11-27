@@ -2,7 +2,38 @@
 
 from django.db import migrations, models
 import django.db.models.deletion
+from ..permissions import assign_permissions
 
+
+def assign_groups_and_permissions(apps, schema_editor):
+    # Obtener el modelo User de la aplicación
+    User = apps.get_model('auth', 'User')
+    Group = apps.get_model('auth', 'Group')
+    Permission = apps.get_model('auth', 'Permission')
+
+    # Obtener o crear grupos
+    user_group, created = Group.objects.get_or_create(name='Usuarios')
+    admin_group, created = Group.objects.get_or_create(name='Administradores')
+
+    # Obtener o crear usuarios
+    user, created = User.objects.get_or_create(username='nombre_usuario_regular')
+    admin, created = User.objects.get_or_create(username='nombre_usuario_admin')
+
+    # Asegúrate de que los permisos ya existen antes de intentar crearlos
+    add_device_permission, _ = Permission.objects.get_or_create(codename='add_device', name='Can add device')
+    add_virtualdevice_permission, _ = Permission.objects.get_or_create(codename='add_virtualdevice', name='Can add virtual device')
+
+    # Asignar permisos a los grupos solo si no están ya asignados
+    if not user_group.permissions.filter(id=add_device_permission.id).exists():
+        user_group.permissions.add(add_device_permission)
+    if not admin_group.permissions.filter(id=add_device_permission.id).exists():
+        admin_group.permissions.add(add_device_permission)
+    if not admin_group.permissions.filter(id=add_virtualdevice_permission.id).exists():
+        admin_group.permissions.add(add_virtualdevice_permission)
+
+    # Asignar usuarios a grupos
+    user.groups.add(user_group)
+    admin.groups.add(admin_group)
 
 class Migration(migrations.Migration):
 
@@ -48,4 +79,5 @@ class Migration(migrations.Migration):
                 ('relationship', models.ManyToManyField(blank=True, to='traffic.thing')),
             ],
         ),
+        migrations.RunPython(assign_groups_and_permissions),
     ]

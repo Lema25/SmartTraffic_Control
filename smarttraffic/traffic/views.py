@@ -25,26 +25,36 @@ def index(request):
 def device_list(request):
     devices = Device.objects.all()
 
-    if request.method == 'POST':
-        form = DeviceForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('device_list')
+    if request.user.has_perm('traffic.add_device'):
+        print(f"User {request.user.email} has the 'add_device' permission.")
+
+        if request.method == 'POST':
+            form = DeviceForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect('device_list')
+        else:
+            form = DeviceForm()
     else:
-        form = DeviceForm()
+        form = None
 
     return render(request, 'traffic/device_list.html', {'devices': devices, 'form': form})
+
 
 def virtual_device_list(request):
     virtual_devices = VirtualDevice.objects.all()
 
-    if request.method == 'POST':
-        form = VirtualDeviceForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('virtual_device_list')
+    if request.user.has_perm('traffic.add_virtualdevice'):
+        # Mostrar formulario para agregar dispositivos virtuales
+        if request.method == 'POST':
+            form = VirtualDeviceForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect('virtual_device_list')
+        else:
+            form = VirtualDeviceForm()
     else:
-        form = VirtualDeviceForm()
+        form = None  # Si el usuario no tiene permisos, establecer form en None
 
     return render(request, 'traffic/virtual_device_list.html', {'virtual_devices': virtual_devices, 'form': form})
 
@@ -75,7 +85,7 @@ def traffic_data_list(request):
     return render(request, 'traffic/traffic_data_list.html', {'traffic_data_list': lista})
 
 def my_protected_view(request):
-    # Tu lógica de vista aquí
+    
     return render(request, 'my_protected_template.html')
 
 def login_view(request):

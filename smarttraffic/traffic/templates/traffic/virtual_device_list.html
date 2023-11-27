@@ -13,22 +13,28 @@
         crossorigin="anonymous"
     />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=yes">
 </head>
 <body class="bg-info d-flex justify-content-center align-items-center vh-100">
-    <div class="bg-white p-5 rounded-5 text-secondary shadow" style="width: 50rem">
-        <h2 class="text-center fs-1 fw-bold">List of Virtual Devices</h2>
+<div class="bg-white p-5 rounded-5 text-secondary shadow overflow-auto" style="width: 50rem">
+    <div class="p-5"></div>
+    <h2 class="text-center fs-1 fw-bold p-2">List of Virtual Devices</h2>
+    
+        <!-- Botón de atrás -->
+        <a href="{% url 'index' %}"><button class="btn btn-primary" data-bs-toggle="button" autocomplete="off">Atrás</button></a>
         
         <!-- Formulario para agregar dispositivo virtual (arriba) -->
-        <form method="post" class="mt-4">
+        <form method="post" class="form-control">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">Agregar Dispositivo Virtual</button>
+            <div class="input-group mt-4">
+            <button type="submit" class="btn btn-primary" data-bs-toggle="button" autocomplete="off">Agregar Dispositivo Virtual</button>
+        </div>
         </form>
 
         <!-- Verifica si hay dispositivos virtuales para mostrar -->
         {% if virtual_devices %}
-        <h2><li><a href="{% url 'device_list' %}" class="text-decoration-none text-info fw-semibold">Virtual Devices</a></li></h2>
+        <h2><li><a href="{% url 'virtual_device_list' %}" class="text-decoration-none text-info fw-semibold">Virtual Devices</a></li></h2>
             <div class="input-group mt-4">
               
                 <ul>

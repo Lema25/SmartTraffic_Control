@@ -18,6 +18,10 @@
   <div class="bg-white p-5 rounded-5 text-secondary shadow" style="width: 50rem">
     <h2 class="text-center fs-1 fw-bold">List of Traffic Data</h2>
 
+    <!-- Botón de atrás -->
+    <a href="{% url 'index' %}"><button class="btn btn-primary" data-bs-toggle="button" autocomplete="off">Atrás</button></a>
+
+
     <!-- Formulario de búsqueda -->
     <form method="get">
       <div class="input-group mb-3">
@@ -30,14 +34,12 @@
       </div>
     </form>
 
-    <!-- Botón de atrás -->
-    <a href="{% url 'index' %}"><button class="btn btn-primary" data-bs-toggle="button" autocomplete="off">Atrás</button></a>
-
+    
     {% if traffic_data_list %}
       <p>Se encontraron datos:</p>
       <ul>
         {% for data in traffic_data_list %}
-          <li>{{ data.id }} - {{ data.device.name }} - {{ data.timestamp }}</li>
+          <li>{{ data.id }} - {{ data.name }} </li>
         {% endfor %}
       </ul>
     {% else %}
